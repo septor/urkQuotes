@@ -24,16 +24,25 @@ class urkquotes_adminArea extends e_admin_dispatcher
 			'ui' 			=> 'quotes_form_ui',
 			'uipath' 		=> null
 		),
+		'starplayers' => array(
+			'controller'	=> 'starplayers_ui',
+			'path'			=> null,
+			'ui'			=> 'starplayers_form_ui',
+			'uipath'		=> null
+		),
 	);
 
 	protected $adminMenu = array(
-		'main/list'			=> array('caption'=> 'Manage Quotes', 'perm' => 'P'),
-		'main/create'		=> array('caption'=> 'Create New Quote', 'perm' => 'P'),
-		'main/prefs' 		=> array('caption'=> LAN_PREFS, 'perm' => 'P'),
+		'main/list'				=> array('caption'=> 'Manage Quotes', 'perm' => 'P'),
+		'main/create'			=> array('caption'=> 'Create New Quote', 'perm' => 'P'),
+		'starplayers/list'		=> array('caption' => 'Manage Star Players', 'perm' => 'P'),
+		'starplayers/create'	=> array('caption' => 'Create New Star Player', 'perm' => 'P'),
+		'main/prefs'			=> array('caption'=> LAN_PREFS, 'perm' => 'P'),
 	);
 
 	protected $adminMenuAliases = array(
-		'main/edit'	=> 'main/list'
+		'main/edit'	=> 'main/list',
+		'startplayers/edit' => 'starplayers/list',
 	);
 
 	protected $menuTitle = 'urkQuotes';
@@ -169,6 +178,14 @@ class quotes_ui extends e_admin_ui
 			'data' => 'str',
 			'help' => 'Select a userclass that automatically has their submitted quote approved.'
 		),
+		'colorizeLines' => array(
+			'title' => 'Colorize the lines of quotes based on who says them?',
+			'tab' => 0,
+			'type' => 'boolean',
+			'data' => 'str',
+			'help' => 'Query the database and colorize quote lines if they match a user\'s name.'
+		),
+
 	);
 
 	public function init()
@@ -218,7 +235,110 @@ class quotes_ui extends e_admin_ui
 	}
 }
 
+class starplayers_ui extends e_admin_ui
+{
+	protected $pluginTitle		= 'urkQuotes';
+	protected $pluginName		= 'urkquotes';
+	protected $table			= 'starPlayers';
+	protected $pid				= 'id';
+	protected $perPage			= 20;
+	protected $batchDelete		= true;
+	protected $listOrder		= 'id DESC';
+
+	protected $fields = array(
+		'checkboxes' =>  array(
+			'title' => '',
+			'type' => null,
+			'data' => null,
+			'width' => '5%',
+			'thclass' => 'center',
+			'forced' => '1',
+			'class' => 'center',
+			'toggle' => 'e-multiselect',
+		),
+		'id' =>  array (
+			'title' => LAN_ID,
+			'data' => 'int',
+			'width' => '5%',
+			'inline' => true,
+			'help' => '',
+			'readParms' => '',
+			'writeParms' => '',
+			'class' => 'left',
+			'thclass' => 'left',
+		),
+		'usernames' =>   array (
+			'title' => 'Usernames',
+			'type' => 'text',
+			'data' => 'str',
+			'width' => 'auto',
+			'inline' => true,
+			'help' => 'Split each username with a comma (,). NO SPACES.',
+			'readParms' => '',
+			'writeParms' => '',
+			'class' => 'left',
+			'thclass' => 'left',
+		),
+		'hexcolor' => array (
+			'title' => 'HTML Hex Color',
+			'type' => 'text',
+			'data' => 'str',
+			'width' => 'auto',
+			'help' => 'Generally something along the lines of #000000.',
+			'readParms' => '',
+			'writeParms' => '',
+			'class' => 'left',
+			'thclass' => 'left',
+		),
+		'options' => array (
+			'title' => LAN_OPTIONS,
+			'type' => null,
+			'data' => null,
+			'width' => '10%',
+			'thclass' => 'center last',
+			'class' => 'center last',
+			'forced' => '1',
+		),
+	);
+
+	protected $fieldpref = array('usernames', 'hexcolor');
+
+	//	protected $preftabs        = array('General', 'Other' );
+	protected $prefs = '';
+
+	public function init()
+	{
+	}
+
+	public function beforeCreate($new_data)
+	{
+	}
+
+	public function afterCreate($new_data, $old_data, $id)
+	{
+	}
+
+	public function onCreateError($new_data, $old_data)
+	{
+	}
+
+	public function beforeUpdate($new_data, $old_data, $id)
+	{
+	}
+
+	public function afterUpdate($new_data, $old_data, $id)
+	{
+	}
+
+	public function onUpdateError($new_data, $old_data, $id)
+	{
+	}
+}
+
 class quotes_form_ui extends e_admin_form_ui
+{
+}
+class starplayers_form_ui extends e_admin_form_ui
 {
 }
 

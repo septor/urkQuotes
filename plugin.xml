@@ -18,5 +18,6 @@
 		<pref name='submitClass'></pref>
 		<pref name='approveClass'></pref>
 		<pref name='autoapproveClass'></pref>
+		<pref name='colorizeLines'>true</pref>
 	</pluginPrefs>
 </e107Plugin>

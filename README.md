@@ -1,2 +1,5 @@
 # urkQuotes
-e107v2: IRC Quotes Plugin, based on code from http://chickfights.us/
+
+An IRC quote displaying plugin!
+
+There's several features being planned. This readme file will be updated once more is coded in. For now, just watch the commits!

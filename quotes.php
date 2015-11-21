@@ -10,10 +10,26 @@ require_once('../../class2.php');
 require_once(HEADERF);
 require_once(e_PLUGIN.'urkquotes/_class.php');
 $sql = e107::getDb();
-$ren = e107::getRender();
 $tp = e107::getParser();
+$pref = e107::pref('urkquotes');
 
-$quotes = $sql->retrieve('quotes', '*', 'status="approved"', true);
+if(isset($_GET['sortby']))
+{
+	$sortby = strtolower($_GET['sort']);
+
+	if($sortby == "highest") $sorting = " ORDER BY rating DESC";
+	else if($sortby == "lowest") $sorting = " ORDER BY rating ASC";
+	else if($sortby == "newest") $sorting = " ORDER BY id DESC";
+	else if($sortby == "oldest") $sorting = " ORDER BY id ASC";
+	else if($sortby == "random") $sorting = " ORDER BY RAND()";
+	else $sorting = " ORDER BY id DESC";
+}
+else
+{
+	$sorting = " ORDER BY id DESC";
+}
+
+$quotes = $sql->retrieve('quotes', '*', 'status="approved"'.$sorting, true);
 
 $qc = 0;
 foreach($quotes as $quote)
@@ -24,21 +40,19 @@ foreach($quotes as $quote)
 	$body = '<h3>'.$quote['rating'].'</h3>';
 	foreach($quoteblock as $line)
 	{
-		// NOTE:
-		// colorizeLine() does not properly work.
-		// Will fix after other things are taken care of.
-		$endquote .= colorizeLine($line).'<br />';
+		$endquote .= ($pref['colorizeLines'] == true ? colorizeLine($line) : $line).'<br />';
 	}
 
 	$body .= $endquote;
 
-	$ren->tablerender($quote['id'], $body);
+	e107::getRender()->tablerender($quote['id'], $body);
 	$qc++;
 }
 
 if($qc == 0)
 {
-	$ren->tablerender('Oops!', "There's no quotes to display!");
+	e107::getMessage()->addInfo('Oops! There are no quotes to display!');
+	echo e107::getMessage()->render();
 }
 
 require_once(FOOTERF);
