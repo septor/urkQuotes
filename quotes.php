@@ -13,15 +13,15 @@ $sql = e107::getDb();
 $tp = e107::getParser();
 $pref = e107::pref('urkquotes');
 
-if(isset($_GET['sortby']))
+if(isset($_GET['sort']))
 {
-	$sortby = strtolower($_GET['sort']);
+	$sort = strtolower($_GET['sort']);
 
-	if($sortby == "highest") $sorting = " ORDER BY rating DESC";
-	else if($sortby == "lowest") $sorting = " ORDER BY rating ASC";
-	else if($sortby == "newest") $sorting = " ORDER BY id DESC";
-	else if($sortby == "oldest") $sorting = " ORDER BY id ASC";
-	else if($sortby == "random") $sorting = " ORDER BY RAND()";
+	if($sort == "highest") $sorting = " ORDER BY rating DESC";
+	else if($sort == "lowest") $sorting = " ORDER BY rating ASC";
+	else if($sort == "newest") $sorting = " ORDER BY id DESC";
+	else if($sort == "oldest") $sorting = " ORDER BY id ASC";
+	else if($sort == "random") $sorting = " ORDER BY RAND()";
 	else $sorting = " ORDER BY id DESC";
 }
 else
