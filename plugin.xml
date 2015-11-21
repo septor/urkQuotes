@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e107Plugin name="urkQuotes" lan="" version="1.0" date="2015-11-20" compatibility="2.0" installRequired="true" >
+	<author name="Patrick Weaver" url="http://trickmod.com" />
+	<summary lan="">IRC Quote Displaying</summary>
+	<description lan="">Display quotes from IRC that your users can browse and vote on.</description>
+	<keywords>
+		<word>irc</word>
+		<word>quotes</word>
+	</keywords>
+	<category>misc</category>
+	<copyright>2015</copyright>
+	<adminLinks>
+		<link url="admin_config.php" description="" icon="" iconSmall="" primary="true" >LAN_CONFIGURE</link>
+	</adminLinks>
+	<pluginPrefs>
+		<pref name='popularThreshold'>20</pref>
+		<pref name='unpopularThreshold'>-20</pref>
+		<pref name='submitClass'></pref>
+		<pref name='approveClass'></pref>
+		<pref name='autoapproveClass'></pref>
+	</pluginPrefs>
+</e107Plugin>
