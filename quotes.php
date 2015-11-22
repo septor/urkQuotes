@@ -34,8 +34,8 @@ $quotes = $sql->retrieve('quotes', '*', 'status="approved"'.$sorting, true);
 $qc = 0;
 foreach($quotes as $quote)
 {
-	// We need to pull in the quoteblock, parse the htmlspecialchars and explode each line into an array.
 	$quoteblock = explode('<br />', $tp->toHtml(str_replace('&#092;', '', $quote['quote'])));
+	//$quoteblock = explode('<br />', str_replace('&#092;', '', $quote['quote']));
 
 	$body = '<h3>'.$quote['rating'].'</h3>';
 	foreach($quoteblock as $line)
@@ -47,6 +47,8 @@ foreach($quotes as $quote)
 
 	e107::getRender()->tablerender($quote['id'], $body);
 	$qc++;
+
+	unset($endquote, $body);
 }
 
 if($qc == 0)

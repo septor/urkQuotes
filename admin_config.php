@@ -200,8 +200,7 @@ class quotes_ui extends e_admin_ui
 
 	public function beforeCreate($new_data)
 	{
-		$new_data['rating'] = '0';
-		$new_data['quote'] = htmlspecialchars(addslashes($new_data['quote']));
+		$new_data['quote'] = e107::getParser()->toDb($new_data['quote'], true, false, 'no_html');
 		return $new_data;
 	}
 
@@ -217,7 +216,7 @@ class quotes_ui extends e_admin_ui
 	{
 		if($old_data['quote'] == "")
 		{
-			$new_data['quote'] = htmlspecialchars(addslashes($old_data['quote']));
+			$new_data['quote'] = e107::getParser()->toDb($old_data['quote'], true, false, 'no_html');
 		}
 		else
 		{
