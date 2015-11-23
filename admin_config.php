@@ -128,6 +128,18 @@ class quotes_ui extends e_admin_ui
 			'class' => 'left',
 			'thclass' => 'left',
 		),
+		'reported' =>   array (
+			'title' => 'Reported Count',
+			'type' => 'text',
+			'data' => 'str',
+			'width' => 'auto',
+			'inline' => true,
+			'help' => 'Quotes can only be reported once. If this number is greater than 0, the quote cannot be reported.',
+			'readParms' => '',
+			'writeParms' => '',
+			'class' => 'left',
+			'thclass' => 'left',
+		),
 		'options' => array (
 			'title' => LAN_OPTIONS,
 			'type' => null,
@@ -192,6 +204,7 @@ class quotes_ui extends e_admin_ui
 	{
 		$this->status = array(
 			'pending' => 'Pending',
+			'reported' => 'Reported',
 			'approved' => 'Approved',
 			'denied' => 'Denied'
 		);

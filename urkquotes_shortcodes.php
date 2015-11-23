@@ -22,5 +22,20 @@ class urkquotes_shortcodes extends e_shortcode
 	{
 		return $this->var['id'];
 	}
+
+	function sc_report($parm='')
+	{
+		$item_array = $this->var['reported'];
+		if(USER && $item_array[0] == 0)
+		{
+			$output = '<a href="'.e_PLUGIN.'urkquotes/quotes.php?report='.$item_array[1].'"><span class="glyphicon glyphicon-exclamation-sign" title="Report Quote"></span></a>';
+		}
+		else
+		{
+			$output = '';
+		}
+
+		return $output;
+	}
 }
 ?>

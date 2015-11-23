@@ -11,24 +11,33 @@ function colorizeLine($line)
 	$starPlayers = e107::getDb()->retrieve('starPlayers', '*', '', true);
 	$words = explode(" ", $line);
 
-	foreach($starPlayers as $player)
+	if(!empty($starPlayers[0]))
 	{
-		$usernames = explode(',', $player['usernames']);
-		$colorIt = false;
-		foreach($usernames as $username)
-			if(strpos($words[0], $username) !== false)
-				$colorIt = true;
+		foreach($starPlayers as $player)
+		{
+			$usernames = explode(',', $player['usernames']);
+			$colorIt = false;
+			foreach($usernames as $username)
+				if(strpos($words[0], $username) !== false)
+					$colorIt = true;
 
-		if($colorIt)
-		{
-			$newLine = '<span style="color:'.$player['hexcolor'].';">'.$line.'</span>';
-			break;
+			if($colorIt)
+			{
+				$newLine = '<span style="color:'.$player['hexcolor'].';">'.$line.'</span>';
+				break;
+			}
+			else
+			{
+				$newLine = $line;
+			}
 		}
-		else
-		{
-			$newLine = $line;
-		}
+		$output = $newLine;
 	}
-	return $newLine;
+	else
+	{
+		$output = $line;
+	}
+
+	return $output;
 }
 ?>

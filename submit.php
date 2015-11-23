@@ -27,6 +27,7 @@ if(check_class($pref['submitClass']))
 				'quote' => $tp->toDb($_POST['quote'], true, false, 'no_html'),
 				'datestamp' => time(),
 				'status' => $status,
+				'reported' => 0,
 			);
 
 			if($sql->insert('quotes', $insert))

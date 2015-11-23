@@ -11,6 +11,8 @@ require_once(HEADERF);
 require_once(e_PLUGIN.'urkquotes/_class.php');
 $sql = e107::getDb();
 $tp = e107::getParser();
+$sc = e107::getScBatch('urkquotes', true);
+$template = e107::getTemplate('urkquotes');
 $pref = e107::pref('urkquotes');
 
 if(isset($_GET['sort']))
@@ -29,33 +31,50 @@ else
 	$sorting = " ORDER BY id DESC";
 }
 
-$quotes = $sql->retrieve('quotes', '*', 'status="approved"'.$sorting, true);
-
-$qc = 0;
-foreach($quotes as $quote)
+if(isset($_GET['report']))
 {
-	$quoteblock = explode('<br />', $tp->toHtml(str_replace('&#092;', '', $quote['quote'])));
-	//$quoteblock = explode('<br />', str_replace('&#092;', '', $quote['quote']));
-
-	$body = '<h3>'.$quote['rating'].'</h3>';
-	foreach($quoteblock as $line)
-	{
-		$endquote .= ($pref['colorizeLines'] == true ? colorizeLine($line) : $line).'<br />';
-	}
-
-	$body .= $endquote;
-
-	e107::getRender()->tablerender($quote['id'], $body);
-	$qc++;
-
-	unset($endquote, $body);
-}
-
-if($qc == 0)
-{
-	e107::getMessage()->addInfo('Oops! There are no quotes to display!');
+	$update = array(
+		'status' => 'reported',
+		'reported' => 1,
+		'WHERE' => 'id = '.intval($_GET['report']),
+	);
+	$sql->update('quotes', $update);
+	e107::getMessage()->addInfo('You have reported quote #'.$_GET['report'].'. It will be reviewed shortly.');
 	echo e107::getMessage()->render();
 }
+
+$quotes = $sql->retrieve('quotes', '*', 'status="approved"'.$sorting, true);
+
+if($quotes)
+{
+	$text = $tp->parseTemplate($template['start'], false, $sc);
+	foreach($quotes as $quote)
+	{
+		$block = explode('<br />', $tp->toHtml($quote['quote']));
+
+		$endquote = '';
+		foreach($block as $line)
+		{
+			$endquote .= ($pref['colorizeLines'] == true ? colorizeLine($line) : $line).'<br />';
+		}
+
+		$sc->setVars(array(
+			'id' => $quote['id'],
+			'rating' => $quote['rating'],
+			'reported' => array($quote['reported'], $quote['id']),
+			'quote' => $endquote,
+		));
+		$text .= $tp->parseTemplate($template['quote'], false, $sc);
+		unset($endquote, $block);
+	}
+	$text .= $tp->parseTemplate($template['end'], false, $sc);
+}
+else
+{
+	$text = '<div class="center">Oops! There are no quotes to display!</div>';
+}
+
+e107::getRender()->tablerender('Quotes', $text);
 
 require_once(FOOTERF);
 ?>

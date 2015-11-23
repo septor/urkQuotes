@@ -11,7 +11,7 @@ _Note: Some of these may already be coded in._
   * A userclass can be selected to have their quotes auto-approved.
   * Quotes can only be approved by a defined userclass.
 * Quote Reporting System
-  * Quotes can be reported by anyone.
+  * Quotes can be reported by ~~anyone~~ any **member** of the site.
   * Quotes can only be reported once.
   * Reported quotes show up on the same page as submitted quotes.
   * Reported quotes can be managed by the same userclass that approves quotes.
