@@ -21,11 +21,12 @@ if(check_class($pref['submitClass']))
 	{
 		if($_POST['quote'] != "")
 		{
+			$status = (check_class($pref['autoapproveClass']) ? 'approved' : 'pending');
 			$insert = array(
 				'rating' => 0,
 				'quote' => $tp->toDb($_POST['quote'], true, false, 'no_html'),
 				'datestamp' => time(),
-				'status' => 'pending',
+				'status' => $status,
 			);
 
 			if($sql->insert('quotes', $insert))
